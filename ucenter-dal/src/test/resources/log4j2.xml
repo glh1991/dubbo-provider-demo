@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn">
+    <Properties>
+        <Property name="LOG_HOME">/Users/allen/logs</Property>
+        <Property name="LOG_NAME">ucenter.txt</Property>
+    </Properties>
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+        </console>
+
+        <RollingRandomAccessFile name="RollingFileInfo"
+                                 fileName="${LOG_HOME}/${LOG_NAME}" filePattern="${LOG_HOME}/${LOG_NAME}.%d{yyyy-MM-dd}" append="true">
+            <Filters>
+                <ThresholdFilter level="INFO" />
+                <ThresholdFilter level="WARN" onMatch="DENY"
+                                 onMismatch="NEUTRAL" />
+            </Filters>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="100 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="20" />
+        </RollingRandomAccessFile>
+
+    </appenders>
+
+    <loggers>
+        <!--过滤掉无用的debug信息 -->
+        <logger name="org.springframework" level="ERROR"></logger>
+        <logger name="org.apache" level="ERROR"></logger>
+        <logger name="org.hibernate" level="ERROR"></logger>
+        <root level="all" >
+            <appender-ref ref="Console" />
+            <appender-ref ref="RollingFileInfo" />
+        </root>
+    </loggers>
+
+</configuration>
