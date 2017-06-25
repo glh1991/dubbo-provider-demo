@@ -74,6 +74,7 @@
             <version>${aspectj-version}</version>
         </dependency>
 
+        <!--logging-->
         <!-- slf4j核心包 -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -114,5 +115,6 @@
             <artifactId>spring-test</artifactId>
             <version>${spring-version}</version>
         </dependency>
+        <!--end logging-->
     </dependencies>
 </project>

@@ -10,6 +10,12 @@
     <!--加载配置文件-->
     <context:property-placeholder location="classpath:/config/*.properties" />
 
+    <!--慢查询记录-->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <property name="slowSqlMillis" value="10000" />
+        <property name="logSlowSql" value="true" />
+    </bean>
+
     <!--数据库连接池配置-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
           init-method="init" destroy-method="close">
@@ -20,8 +26,8 @@
 
         <!-- 配置初始化大小、最小、最大 -->
         <property name="initialSize" value="1"/> <!-- 初始大小 -->
-        <property name="minIdle" value="8"/> <!-- 队列中的最小等待数 -->
-        <property name="maxActive" value="40"/> <!-- 最大活跃数 -->
+        <property name="minIdle" value="${jdbc.min.idle}"/> <!-- 队列中的最小等待数 -->
+        <property name="maxActive" value="${jdbc.max.active}"/> <!-- 最大活跃数 -->
 
         <!-- 配置获取连接等待超时的时间 -->
         <property name="maxWait" value="180000"/>  <!-- 最长等待时间，单位毫秒 -->
@@ -36,10 +42,16 @@
         <property name="testWhileIdle" value="true"/>
         <property name="testOnBorrow" value="false"/>
         <property name="testOnReturn" value="false"/>
-        <property name="filters" value="stat"/>
+        <!--stat => 监控, wall => 防御sql注入 -->
+        <property name="filters" value="wall,stat"/>
     </bean>
 
-    <!--spring-mybatis-->
+    <!--自动扫描dao下面的接口, 匹配*Mapper.xml-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="me.allensea.ucenter.dal.dao" />
+    </bean>
+
+    <!--spring mybatis-->
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation"
@@ -61,8 +73,4 @@
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <context:component-scan base-package="me.allensea.ucenter" />
 
-    <!--自动扫描dao下面的接口, 匹配*Mapper.xml-->
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="me.allensea.ucenter.dal.dao" />
-    </bean>
 </beans>
