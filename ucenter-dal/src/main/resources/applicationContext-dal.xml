@@ -72,5 +72,4 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
     <context:component-scan base-package="me.allensea.ucenter" />
-
 </beans>

@@ -11,5 +11,19 @@
 
     <artifactId>ucenter-provider</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>me.allensea</groupId>
+            <artifactId>uceter-spi</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>me.allensea</groupId>
+            <artifactId>ucenter-dal</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
