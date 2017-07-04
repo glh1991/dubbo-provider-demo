@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by allen on 17/6/25.
  */
-@Service
+@Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
 
     @Autowired
